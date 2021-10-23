@@ -1,0 +1,26 @@
+.text-center {
+    text-align: center;
+    color: #1A237E;
+}
+
+.container-margin {
+    margin-top: 100px;
+}
+
+.btn-primary {
+    background: #283593;
+    border-radius: 6px;
+}
+
+.btn-primary:hover {
+    background: #1A237E;
+    border-radius: 6px;
+}
+
+.timer-text {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 288px;
+    line-height: 349px;
+    color: #1A237E;
+}
