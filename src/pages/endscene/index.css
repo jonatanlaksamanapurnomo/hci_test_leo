@@ -1,13 +1,13 @@
 .thankyou-page {
-    height: 100vh;
-    display: grid;
-    place-content: center;
+  height: 100vh;
+  display: grid;
+  place-content: center;
 }
 
 .margin-bottom {
-    margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
 .socmed {
-    cursor: pointer;
+  cursor: pointer;
 }
