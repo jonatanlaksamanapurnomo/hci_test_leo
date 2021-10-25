@@ -1,8 +1,8 @@
 {
-  "homepage": "https://jonatanlaksamanapurnomo.github.io/hci_test_leo/",
+  "homepage": "https://jonatanlaksamanapurnomo.github.io/hci_test_leo",
   "name": "hci-test",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
