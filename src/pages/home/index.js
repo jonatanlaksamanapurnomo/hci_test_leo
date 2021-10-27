@@ -53,116 +53,7 @@ let questions = [
         deactive: rectangleDeactive,
     },
 ];
-let buttonCombination = [
-    {
-        pos: 0,
-        btnClass: "button-primary-lg-1",
-    },
-    {
-        pos: 1,
-        btnClass: "button-primary-lg-1",
-    },
-    {
-        pos: 2,
-        btnClass: "button-primary-lg-1",
-    },
-    {
-        pos: 0,
-        btnClass: "button-primary-lg-2",
-    },
-    {
-        pos: 1,
-        btnClass: "button-primary-lg-2",
-    },
-    {
-        pos: 2,
-        btnClass: "button-primary-lg-2",
-    },
-    {
-        pos: 0,
-        btnClass: "button-primary-lg-3",
-    },
-    {
-        pos: 1,
-        btnClass: "button-primary-lg-3",
-    },
-    {
-        pos: 2,
-        btnClass: "button-primary-lg-3",
-    },
-    {
-        pos: 0,
-        btnClass: "button-primary-md-3",
-    },
-    {
-        pos: 1,
-        btnClass: "button-primary-md-3",
-    },
-    {
-        pos: 2,
-        btnClass: "button-primary-md-3",
-    },
-    {
-        pos: 0,
-        btnClass: "button-primary-md-2",
-    },
-    {
-        pos: 1,
-        btnClass: "button-primary-md-2",
-    },
-    {
-        pos: 2,
-        btnClass: "button-primary-md-2",
-    },
-    {
-        pos: 0,
-        btnClass: "button-primary-md-1",
-    },
-    {
-        pos: 1,
-        btnClass: "button-primary-md-1",
-    },
-    {
-        pos: 2,
-        btnClass: "button-primary-md-1",
-    },
-    {
-        pos: 0,
-        btnClass: "button-primary-sm-1",
-    },
-    {
-        pos: 1,
-        btnClass: "button-primary-sm-1",
-    },
-    {
-        pos: 2,
-        btnClass: "button-primary-sm-1",
-    },
-    {
-        pos: 0,
-        btnClass: "button-primary-sm-2",
-    },
-    {
-        pos: 1,
-        btnClass: "button-primary-sm-2",
-    },
-    {
-        pos: 2,
-        btnClass: "button-primary-sm-2",
-    },
-    {
-        pos: 0,
-        btnClass: "button-primary-sm-3",
-    },
-    {
-        pos: 1,
-        btnClass: "button-primary-sm-3",
-    },
-    {
-        pos: 2,
-        btnClass: "button-primary-sm-3",
-    },
-];
+
 const Home = (props) => {
     const shuffle = (array) => {
         let currentIndex = array.length,
@@ -187,10 +78,21 @@ const Home = (props) => {
     const [idx] = useState(Math.floor(Math.random() * 2));
     const [btnClass, setButtonClass] = useState("");
     // eslint-disable-next-line
-    const [buttonClass] = useState(shuffle(buttonCombination));
+    const [buttonClass] = useState(props.buttonClass);
     const [timer, setTimer] = useState(0);
     const history = useHistory();
     const loginedUser = JSON.parse(localStorage.getItem("userLogin"));
+
+
+    useEffect(() => {
+        if (loginedUser === null) {
+            history.push("/");
+        }
+
+        // eslint-disable-next-line
+    }, []);
+
+
     useEffect(() => {
         let myInterval = setInterval(() => {
             // console.log(timer);
@@ -200,13 +102,6 @@ const Home = (props) => {
             clearInterval(myInterval);
         }; // eslint-disable-next-line
     }, [timer]);
-
-    useEffect(() => {
-        if (loginedUser === null) {
-            history.push("/");
-        }
-        // eslint-disable-next-line
-    }, []);
 
     useEffect(() => {
         let idx =
@@ -227,6 +122,7 @@ const Home = (props) => {
 
     const addRecord = () => {
         const db = Fire.firestore();
+        answer.timeStamp = new Date(Date.now());
         db.collection("records")
             .add(answer)
             .then(() => {
@@ -244,7 +140,9 @@ const Home = (props) => {
         obj.age = loginedUser.usia;
         obj.isMale = loginedUser.isMale;
         obj.question = question[idx].answer;
-        obj.btnClass = buttonClass[idx];
+        obj.btnClass = {};
+        obj.btnClass.pos = pos;
+        obj.btnClass.btnClass = btnClass;
         obj.time = `${("0" + Math.floor((timer / 60) % 60000)).slice(-2)}:${(
             "0" + Math.floor((timer / 60) % 1000)
         ).slice(-2)}:${("0" + Math.floor((timer / 10) % 1000)).slice(-2)} `;
@@ -263,67 +161,72 @@ const Home = (props) => {
         e.preventDefault();
         addRecord();
     };
+    if (buttonClass.length > 0) {
 
-    return (
-        <>
-            <div className="  margin-center ">
-                <div>
-                    <div className="width-764">
-                        <div className="text-center margin-16">
-                            <div id="heading-s" className="margin-16">
-                                Manakah dari kedua gambar berikut yang merupakan
+        return (
+            <>
+                <div className="  margin-center ">
+                    <div>
+                        <div className="width-764">
+                            <div className="text-center margin-16">
+                                <div id="heading-s" className="margin-16">
+                                    Manakah dari kedua gambar berikut yang merupakan
+                                </div>
+                                <h1 className="margin-80">{question[idx].answer}</h1>
                             </div>
-                            <h1 className="margin-80">{question[idx].answer}</h1>
+                            <div className="row    ">
+                                <div className="col-6 p-0 d-flex justify-content-start">
+                                    <img
+                                        className="image-border"
+                                        src={question[0][leftActive ? "active" : "deactive"]}
+                                        onClick={() => handleCLickPhoto("left")}
+                                        alt="a"
+                                    />
+                                </div>
+                                <div className="col-6 p-0 d-flex justify-content-end">
+                                    <img
+                                        className="image-border"
+                                        src={question[1][rightActive ? "active" : "deactive"]}
+                                        onClick={() => handleCLickPhoto("right")}
+                                        alt="b"
+                                    />
+                                </div>
+                            </div>
                         </div>
-                        <div className="row    ">
-                            <div className="col-6 p-0 d-flex justify-content-start">
-                                <img
-                                    className="image-border"
-                                    src={question[0][leftActive ? "active" : "deactive"]}
-                                    onClick={() => handleCLickPhoto("left")}
-                                    alt="a"
-                                />
-                            </div>
-                            <div className="col-6 p-0 d-flex justify-content-end">
-                                <img
-                                    className="image-border"
-                                    src={question[1][rightActive ? "active" : "deactive"]}
-                                    onClick={() => handleCLickPhoto("right")}
-                                    alt="b"
-                                />
-                            </div>
-                        </div>
-                    </div>
 
-                    <div className="margin-inside">
-                        <div className="row ">
-                            <div className="col-4 d-flex justify-content-start ">
-                                {pos === 0 && (
-                                    <button onClick={handleClickNext} className={btnClass}>
-                                        Next
-                                    </button>
-                                )}
-                            </div>
-                            <div className="col-4 d-flex justify-content-center ">
-                                {pos === 1 && (
-                                    <button onClick={handleClickNext} className={btnClass}>
-                                        Next
-                                    </button>
-                                )}
-                            </div>
-                            <div className="col-4 d-flex justify-content-end">
-                                {pos === 2 && (
-                                    <button onClick={handleClickNext} className={btnClass}>
-                                        Next
-                                    </button>
-                                )}
+                        <div className="margin-inside">
+                            <div className="row ">
+                                <div className="col-4 d-flex justify-content-start ">
+                                    {pos === 0 && (
+                                        <button onClick={handleClickNext} className={btnClass}>
+                                            Next
+                                        </button>
+                                    )}
+                                </div>
+                                <div className="col-4 d-flex justify-content-center ">
+                                    {pos === 1 && (
+                                        <button onClick={handleClickNext} className={btnClass}>
+                                            Next
+                                        </button>
+                                    )}
+                                </div>
+                                <div className="col-4 d-flex justify-content-end">
+                                    {pos === 2 && (
+                                        <button onClick={handleClickNext} className={btnClass}>
+                                            Next
+                                        </button>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </>
-    );
+            </>
+        );
+    } else {
+        return (<p>Loading</p>)
+    }
+
 };
 
 export default Home;

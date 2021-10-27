@@ -53,14 +53,18 @@ const Exporter = () => {
         }
 
     }
+
     const handleButtonPosParser = (col) => {
         if (col.btnClass) {
             return col.btnClass.pos;
         } else {
             return "err"
         }
-
     }
+    const handleDateParser = (col) => {
+        return new Date(col.timeStamp.seconds).toString();
+    }
+
     if (result.length > 0) {
 
         return (
@@ -74,6 +78,7 @@ const Exporter = () => {
                                  value={handleGenderOption}/>
                     <ExcelColumn label="Button" value={handleButtonParser}/>
                     <ExcelColumn label="Button Pos" value={handleButtonPosParser}/>
+                    <ExcelColumn label="Date" value={handleDateParser}/>
                 </ExcelSheet>
             </ExcelFile>
         );
