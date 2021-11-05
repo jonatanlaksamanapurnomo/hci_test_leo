@@ -143,9 +143,9 @@ const Home = (props) => {
         obj.btnClass = {};
         obj.btnClass.pos = pos;
         obj.btnClass.btnClass = btnClass;
-        obj.time = `${("0" + Math.floor((timer / 60) % 60000)).slice(-2)}:${(
-            "0" + Math.floor((timer / 60) % 1000)
-        ).slice(-2)}:${("0" + Math.floor((timer / 10) % 1000)).slice(-2)} `;
+        obj.time = `${("0" + Math.floor((timer / 60))).slice(-2)}:${(
+            "0" + Math.floor((timer / 60))
+        ).slice(-2)}:${("0" + Math.floor((timer / 10))).slice(-2)} `;
         if (type === "left") {
             obj.answer = question[0].answer;
             setLeftActive(true);

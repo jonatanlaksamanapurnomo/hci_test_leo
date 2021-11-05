@@ -62,7 +62,12 @@ const Exporter = () => {
         }
     }
     const handleDateParser = (col) => {
+
         return new Date(col.timeStamp.seconds).toString();
+    }
+    const handleTime = (col) => {
+        let time = parseInt(col.time.split(":")[0]);
+        return time * 60;
     }
 
     if (result.length > 0) {
@@ -73,7 +78,7 @@ const Exporter = () => {
                     <ExcelColumn label="Name" value="name"/>
                     <ExcelColumn label="Question" value="question"/>
                     <ExcelColumn label="Answer" value="answer"/>
-                    <ExcelColumn label="Waktu" value="time"/>
+                    <ExcelColumn label="Waktu(ms)" value={handleTime}/>
                     <ExcelColumn label="Jenis Kelamin"
                                  value={handleGenderOption}/>
                     <ExcelColumn label="Button" value={handleButtonParser}/>
